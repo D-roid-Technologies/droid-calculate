@@ -54,7 +54,7 @@ const ScientificCalculator: React.FC<any> = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <StatusBar />
-            <View style={{ padding: 20, position: "absolute", top: 40, backgroundColor: "#2B3E98", left: 0, height: "100%", zIndex: 1, display: sta ? 'none' : 'flex', width: '65%', }}>
+            <View style={{ padding: 20, position: "absolute", top: 40, backgroundColor: "#2B3E98", left: 0, height: "100%", zIndex: 1, display: !sta ? 'none' : 'flex', width: '65%', }}>
                 <View style={{ marginBottom: 40, flexDirection: "row", gap: 20, alignItems: 'center' }}>
                     <Image source={require('../../../assets/icon.png')} style={{ width: 20, height: 20 }} />
                     <Text style={{ color: "#ffffff", fontWeight: 600, letterSpacing: 2 }}>D'roid Calculate</Text>
