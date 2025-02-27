@@ -1,76 +1,27 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
+import ScientificCalculator from "./src/app/screens/ScientificCalculator";
+import OhmsLawCalculator from "./src/app/screens/OhmsLawCalculator";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BMICalculator from "./src/app/screens/BMICalculator";
 
 export default function App() {
-  const [input, setInput] = useState("");
-  const [result, setResult] = useState("");
 
-  // Function to handle button presses
-  const handlePress = (value: string) => {
-    if (value === "=") {
-      try {
-        setResult(eval(input).toString()); // Evaluate the expression
-      } catch (error) {
-        setResult("Error");
-      }
-    } else if (value === "C") {
-      setInput("");
-      setResult("");
-    } else if (value === "DEL") {
-      setInput((prev) => prev.slice(0, -1));
-    } else if (value === "π") {
-      setInput((prev) => prev + Math.PI.toString());
-    } else if (value === "e") {
-      setInput((prev) => prev + Math.E.toString());
-    } else if (value === "√") {
-      setInput((prev) => `Math.sqrt(${prev})`);
-    } else if (value === "x²") {
-      setInput((prev) => `(${prev})**2`);
-    } else if (value === "sin") {
-      setInput((prev) => `Math.sin(${prev})`);
-    } else if (value === "cos") {
-      setInput((prev) => `Math.cos(${prev})`);
-    } else if (value === "tan") {
-      setInput((prev) => `Math.tan(${prev})`);
-    } else if (value === "log") {
-      setInput((prev) => `Math.log10(${prev})`);
-    } else {
-      setInput((prev) => prev + value);
-    }
-  };
-
+  const StackNavigator = createNativeStackNavigator()
   return (
-    <View style={styles.container}>
-      {/* Display Section */}
-      <View style={styles.display}>
-        <ScrollView horizontal>
-          <Text style={styles.inputText}>{input || "0"}</Text>
-        </ScrollView>
-        <Text style={styles.resultText}>{result}</Text>
-      </View>
-
-      {/* Buttons Section */}
-      <View style={styles.buttonsContainer}>
-        {[
-          "C", "DEL", "π", "e",
-          "sin", "cos", "tan", "log",
-          "√", "x²", "(", ")",
-          "7", "8", "9", "/",
-          "4", "5", "6", "*",
-          "1", "2", "3", "-",
-          "0", ".", "=", "+"
-        ].map((item) => (
-          <TouchableOpacity
-            key={item}
-            style={[styles.button, isOperator(item) && styles.operatorButton]}
-            onPress={() => handlePress(item)}
-          >
-            <Text style={styles.buttonText}>{item}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
+    <NavigationContainer>
+      <StackNavigator.Navigator
+        initialRouteName="ScientificCalculator"
+        screenOptions={{
+          headerShown: false,
+          animation: "slide_from_right",
+        }}>
+        <StackNavigator.Screen name="ScientificCalculator" component={ScientificCalculator} />
+        <StackNavigator.Screen name="OhmsLawCalculator" component={OhmsLawCalculator} />
+        <StackNavigator.Screen name="BMICalculator" component={BMICalculator} />
+      </StackNavigator.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -124,4 +75,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#2B3E98",
   },
 });
-
