@@ -2,14 +2,22 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const BMICalculator: React.FC<any> = ({ navigation }) => {
-    const [weight, setWeight] = useState("");
-    const [height, setHeight] = useState("");
+// Define types for navigation prop
+type BMICalculatorNavigationProp = StackNavigationProp<any, any>;
+
+interface BMICalculatorProps {
+    navigation: BMICalculatorNavigationProp;
+}
+
+const BMICalculator: React.FC<BMICalculatorProps> = ({ navigation }) => {
+    const [weight, setWeight] = useState<string>("");
+    const [height, setHeight] = useState<string>("");
     const [bmi, setBmi] = useState<number | null>(null);
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState<string>("");
 
-    const calculateBMI = () => {
+    const calculateBMI = (): void => {
         if (!weight || !height) return;
 
         const heightInMeters = parseFloat(height) / 100;
@@ -21,12 +29,13 @@ const BMICalculator: React.FC<any> = ({ navigation }) => {
         else if (bmiValue < 29.9) setCategory("Overweight");
         else setCategory("Obese");
     };
+
     return (
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name="arrow-back-outline" size={24} color={"#000000"} />
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
+                <Ionicons name="arrow-back-outline" size={24} color={"#ffffff"} />
+                <Text style={styles.title}>BMI Calculator</Text>
             </TouchableOpacity>
-            <Text>BMI Calculator</Text>
 
             <TextInput
                 style={styles.input}
@@ -54,18 +63,68 @@ const BMICalculator: React.FC<any> = ({ navigation }) => {
                 </View>
             )}
         </SafeAreaView>
-    )
-}
+    );
+};
 
-export default BMICalculator
+export default BMICalculator;
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
-    input: { width: "100%", padding: 10, borderWidth: 1, borderRadius: 8, marginBottom: 10 },
-    button: { backgroundColor: "#007bff", padding: 12, borderRadius: 8, alignItems: "center" },
-    buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-    resultContainer: { marginTop: 20, alignItems: "center" },
-    resultText: { fontSize: 18, fontWeight: "bold" },
-    categoryText: { fontSize: 16, color: "gray" },
+    container: {
+        flex: 1,
+        backgroundColor: "#222",
+        padding: 20,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#fff",
+        marginBottom: 20,
+        textAlign: "center",
+    },
+    input: {
+        width: "100%",
+        padding: 10,
+        borderWidth: 1,
+        borderColor: "#444",
+        borderRadius: 10,
+        marginBottom: 15,
+        backgroundColor: "#333",
+        color: "#fff",
+    },
+    button: {
+        backgroundColor: "#2B3E98",
+        padding: 15,
+        borderRadius: 10,
+        alignItems: "center",
+        width: "100%",
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    resultContainer: {
+        marginTop: 20,
+        alignItems: "center",
+        backgroundColor: "#333",
+        borderRadius: 10,
+        padding: 20,
+        width: "100%",
+    },
+    resultText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#fff",
+    },
+    categoryText: {
+        fontSize: 16,
+        color: "#fff",
+        marginTop: 10,
+    },
+    backArrow: {
+        flexDirection: "row",
+        gap: 20,
+        marginBottom: 20,
+        alignItems: "center"
+    },
 });
